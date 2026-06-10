@@ -80,25 +80,21 @@ async function botReply(text) {
 
 async function getWeather(city) {
 
+    const apiKey = "d1ee73363f6c7ea3e3f8cd78fd6e6127";
+
     try {
 
         const response = await fetch(
-            `https://wttr.in/${city}?format=j1`
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=pt_br`
         );
 
         const data = await response.json();
 
-        const temp = data.current_condition[0].temp_C;
-        const desc = data.current_condition[0].weatherDesc[0].value;
-
-        return `🌤️ Em ${city} está ${temp}°C com ${desc}`;
+        return `🌤️ Em ${city} está ${data.main.temp}°C com ${data.weather[0].description}`;
 
     } catch (error) {
 
-        console.error(error);
-
         return "❌ Não consegui buscar o clima.";
-
     }
 }
 
